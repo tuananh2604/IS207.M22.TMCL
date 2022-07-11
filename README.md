@@ -1,6 +1,10 @@
 # IS207.M22.TMCL
 <h1 align="center">Phát triển ứng dụng web</h1>
 
+<div align="center">
+     <h3>XÂY DỰNG WEBSITE BÁN HÀNG MỸ PHẨM</h3>
+</div>
+
 <table align="center">
  <tr>
   <th>MSSV</th>
@@ -27,3 +31,11 @@
   <td><a href="1950008@gmail.uit.edu.vn">1950008@gmail.uit.edu.vn<a></td>
  </tr>
 </table>
+
+<h3 align="center">CÁC BƯỚC CÀI ĐẶT VÀ CHẠY SOURCE CODE</h3>
+<p><ins>Bước 1:</ins> Tải và cài đặt</p>
+1. Cài đặt xampp </br>
+2. Tải file source.zip và extract  </br>
+3. Sau khi giải nén xong di chuyển folder Ecommerce vào folder htdocs của xampp  </br>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
