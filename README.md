@@ -54,4 +54,5 @@
 <ins>Bước 4:</ins> Thay đổi phí shipping (tùy chọn, mặc định 25k) </br>
 1. Sau khi khởi tạo xong các bước trên truy cập trang web với đường dẫn <i>https://localhost/ecommerce</i></br>
 2. Vì trang web mới khởi tạo nên chưa có sản phẩm, phải thêm sản phẩm trong trang quản trị với tài khoản admin (email : admin@admin.com, password: admin)
+
 <p align="right">(<a href="#top">back to top</a>)</p>
