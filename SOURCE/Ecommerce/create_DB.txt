@@ -1,0 +1,123 @@
+/*Create admin*/
+
+CREATE TABLE `admin` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(50) COLLATE utf8_vietnamese_ci NOT NULL,
+ `email` varchar(100) COLLATE utf8_vietnamese_ci NOT NULL,
+ `password` varchar(255) COLLATE utf8_vietnamese_ci NOT NULL,
+ `is_active` enum('0','1') COLLATE utf8_vietnamese_ci NOT NULL DEFAULT '0',
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+INSERT INTO `admin`(`name`, `email`, `password`, `is_active`) VALUES ('admin','admin@admin.com','$2y$10$8ta3TZattSuD0n67/s1e7OOTL.wN96gZE72Ba24wv1.snvW/Ctvna','1');
+
+/*Create brands*/
+
+CREATE TABLE `brands` (
+ `brand_id` int(100) NOT NULL AUTO_INCREMENT,
+ `brand_title` mediumtext COLLATE utf8_vietnamese_ci NOT NULL,
+ PRIMARY KEY (`brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create categories*/
+
+CREATE TABLE `categories` (
+ `cat_id` int(100) NOT NULL AUTO_INCREMENT,
+ `cat_title` mediumtext COLLATE utf8_vietnamese_ci NOT NULL,
+ PRIMARY KEY (`cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create products*/
+
+CREATE TABLE `products` (
+ `product_id` int(100) NOT NULL AUTO_INCREMENT,
+ `product_cat` int(100) NOT NULL,
+ `product_brand` int(100) NOT NULL,
+ `product_title` varchar(255) COLLATE utf8_vietnamese_ci NOT NULL,
+ `product_price` int(100) NOT NULL,
+ `product_qty` int(11) NOT NULL,
+ `product_desc` mediumtext COLLATE utf8_vietnamese_ci NOT NULL,
+ `product_image` mediumtext COLLATE utf8_vietnamese_ci NOT NULL,
+ `product_keywords` mediumtext COLLATE utf8_vietnamese_ci NOT NULL,
+ `product_oriprice` int(100) NOT NULL,
+ `product_rate` float NOT NULL,
+ PRIMARY KEY (`product_id`),
+ KEY `fk_product_cat` (`product_cat`),
+ KEY `fk_product_brand` (`product_brand`),
+ CONSTRAINT `fk_product_brand` FOREIGN KEY (`product_brand`) REFERENCES `brands` (`brand_id`),
+ CONSTRAINT `fk_product_cat` FOREIGN KEY (`product_cat`) REFERENCES `categories` (`cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create images*/
+
+CREATE TABLE `images` (
+ `img_id` int(100) NOT NULL AUTO_INCREMENT,
+ `p_id` int(100) NOT NULL,
+ `img_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_vietnamese_ci NOT NULL,
+ PRIMARY KEY (`img_id`),
+ KEY `p_id` (`p_id`),
+ CONSTRAINT `images_ibfk_1` FOREIGN KEY (`p_id`) REFERENCES `products` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create user_info*/
+
+CREATE TABLE `user_info` (
+ `user_id` int(10) NOT NULL AUTO_INCREMENT,
+ `first_name` varchar(100) COLLATE utf8_vietnamese_ci NOT NULL,
+ `last_name` varchar(100) COLLATE utf8_vietnamese_ci NOT NULL,
+ `email` varchar(300) COLLATE utf8_vietnamese_ci NOT NULL,
+ `password` varchar(300) COLLATE utf8_vietnamese_ci NOT NULL,
+ `mobile` varchar(10) COLLATE utf8_vietnamese_ci NOT NULL,
+ `address1` varchar(300) COLLATE utf8_vietnamese_ci NOT NULL,
+ PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create cart*/
+
+CREATE TABLE `cart` (
+ `id` int(10) NOT NULL AUTO_INCREMENT,
+ `p_id` int(10) NOT NULL,
+ `ip_add` varchar(250) COLLATE utf8_vietnamese_ci NOT NULL,
+ `user_id` int(10) DEFAULT NULL,
+ `qty` int(10) NOT NULL,
+ PRIMARY KEY (`id`),
+ KEY `p_id` (`p_id`),
+ KEY `user_id` (`user_id`),
+ CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`p_id`) REFERENCES `products` (`product_id`),
+ CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create orders*/ 
+
+CREATE TABLE `orders` (
+ `order_id` int(11) NOT NULL AUTO_INCREMENT,
+ `user_id` int(11) NOT NULL,
+ `order_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_vietnamese_ci NOT NULL,
+ `order_mobile` varchar(20) COLLATE utf8_vietnamese_ci NOT NULL,
+ `shiping` int(11) NOT NULL,
+ `status` varchar(20) COLLATE utf8_vietnamese_ci NOT NULL,
+ `order_date` datetime NOT NULL,
+ `payment` varchar(100) COLLATE utf8_vietnamese_ci NOT NULL,
+ `total` int(100) NOT NULL,
+ `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+ `log` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+ PRIMARY KEY (`order_id`),
+ KEY `user_id` (`user_id`),
+ CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
+
+/*Create order_detail*/
+
+CREATE TABLE `order_details` (
+ `od_id` int(12) NOT NULL AUTO_INCREMENT,
+ `o_id` int(11) NOT NULL,
+ `p_id` int(100) NOT NULL,
+ `od_qty` int(11) NOT NULL,
+ `od_price` int(100) NOT NULL,
+ PRIMARY KEY (`od_id`),
+ KEY `p_id` (`p_id`),
+ KEY `o_id` (`o_id`),
+ CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`p_id`) REFERENCES `products` (`product_id`),
+ CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`o_id`) REFERENCES `orders` (`order_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci;
